@@ -1,6 +1,15 @@
 describe('template spec', () => {
-  it('passes', () => {
-    cy.visit('http://localhost:3000/fundamentals'),
-    cy.get('[data-test="header-fundamentals"]').should("contain", "Testing Fundamentals")
+  beforeEach(() => {
+    cy.visit('/fundamentals')
+  })
+  it('Contains correct header text', () => {
+    cy.getDataTest('header-fundamentals').should("contain", "Testing Fundamentals")
+  }),
+  it('Accordion item', () => {
+    cy.contains(/Your tests will exist in a describe block/i).should('not.be.visible')
+    cy.get('[data-test="accordion-item-1"] div[role=button]').click()
+    cy.contains(/Your tests will exist in a describe block/i).should('be.visible')
+    cy.get('[data-test="accordion-item-1"] div[role=button]').click()
+    cy.contains(/Your tests will exist in a describe block/i).should('not.be.visible')
   })
 })
